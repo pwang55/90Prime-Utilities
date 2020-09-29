@@ -93,7 +93,7 @@ results = jobs.quick(query,task_name='python cone search')
 
 results_tab = Table(results, meta={'ra': ra,'dec': dec,'radius': radius})
 
-ascii.write(results_tab, datapath+clustername+'_panstarrs_radec.ecsv',format='ecsv')
+ascii.write(results_tab, datapath+clustername+'_panstarrs_radec.csv',format='ecsv')
 
 
 

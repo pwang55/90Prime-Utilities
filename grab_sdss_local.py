@@ -62,10 +62,10 @@ gal_data = CasJobs.executeQuery(q_gal, context=context, format='pandas')
 star_tab = Table(star_data.values, names=star_data.columns, meta={'clustername': clustername, 'ra': ra, 'dec': dec, 'radius': radius})
 gal_tab = Table(gal_data.values, names=gal_data.columns, meta={'clustername': clustername, 'ra': ra, 'dec': dec, 'radius': radius})
 
-ascii.write(star_tab, clustername+'_star_sdss_radec.ecsv', format='ecsv')
-ascii.write(gal_tab, clustername+'_gal_sdss_radec.ecsv', format='ecsv')
+ascii.write(star_tab, clustername+'_star_sdss_radec.csv', format='ecsv')
+ascii.write(gal_tab, clustername+'_gal_sdss_radec.csv', format='ecsv')
 
 # ALso save files as csv so that ds9 catalog tools can use them
-ascii.write(star_tab, clustername+'_star_sdss_radec.csv', format='csv')
-ascii.write(gal_tab, clustername+'_gal_sdss_radec.csv', format='csv')
+# ascii.write(star_tab, clustername+'_star_sdss_radec.csv', format='csv')
+# ascii.write(gal_tab, clustername+'_gal_sdss_radec.csv', format='csv')
 
