@@ -13,11 +13,10 @@ Output four files as ecsv file in data folder:
 The output files will be saved at the same directory as the script.
 
 Stars Query:
-    SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z FROM fGetNearbyObjEq(ra,dec,radius) n, Star p WHERE n.objID=p.objID'
+    SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z, clean FROM fGetNearbyObjEq(ra, dec, radius) n, Star p WHERE n.objID=p.objID
 
 Galaxies Query:
-    SELECT p.ra, p.dec, p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z FROM fGetNearbyObjEq(ra,dec,radius) n, Galaxy p WHERE n.objID=p.objID'
-
+    SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z, clean FROM fGetNearbyObjEq(ra, dec, radius) n, Star p WHERE n.objID=p.objID
 
 """
 from numpy import *
@@ -50,10 +49,10 @@ radius = sys.argv[4]
 
 
 # Query for stars with psfMag
-q_star = 'SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z FROM fGetNearbyObjEq('+ra+','+dec+','+radius+') n, Star p WHERE n.objID=p.objID'
+q_star = 'SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z, clean FROM fGetNearbyObjEq('+ra+','+dec+','+radius+') n, Star p WHERE n.objID=p.objID'
 
 # Query for galaxy with cmodelMag
-q_gal = 'SELECT p.ra, p.dec, p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z FROM fGetNearbyObjEq('+ra+','+dec+','+radius+') n, Galaxy p WHERE n.objID=p.objID'
+q_gal = 'SELECT p.ra, p.dec, p.modelMag_u, p.modelMagErr_u, p.modelMag_g, p.modelMagErr_g, p.modelMag_r, p.modelMagErr_r, p.modelMag_i, p.modelMagErr_i, p.modelMag_z, p.modelMagErr_z, p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z, extinction_u, extinction_g,extinction_r, extinction_i, extinction_z, clean FROM fGetNearbyObjEq('+ra+','+dec+','+radius+') n, Galaxy p WHERE n.objID=p.objID'
 
 star_data = CasJobs.executeQuery(q_star, context=context, format='pandas')
 gal_data = CasJobs.executeQuery(q_gal, context=context, format='pandas')
