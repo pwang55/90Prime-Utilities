@@ -23,12 +23,13 @@ Stars Query:
     WHERE n.objID=p.objID AND (s.class IS NULL or s.class = "STAR")
 
 Galaxies Query:
-    SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr_g, p.psfMag_r, p.psfMagErr_r, p.psfMag_i, p.psfMagErr_i, p.psfMag_z, p.psfMagErr_z, 
-    extinction_u, extinction_g,extinction_r, extinction_i, extinction_z, clean, s.z, s.zerr, pz.z as photoz, pz.zerr as photozerr 
-    FROM fGetNearbyObjEq(ra, dec, radius) n, Galaxy p 
-    LEFT OUTER JOIN specObj s ON s.bestObjID=p.objID
-    LEFT OUTER JOIN photoz pz ON pz.objid=p.objid 
-    WHERE n.objID=p.objID AND (s.class IS NULL or s.class = "GALAXY")
+    SELECT p.ra, p.dec, p.modelMag_u, p.modelMagErr_u, p.modelMag_g, p.modelMagErr_g, p.modelMag_r, p.modelMagErr_r, p.modelMag_i, p.modelMagErr_i, p.modelMag_z, p.modelMagErr_z,
+    p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z,
+    extinction_u, extinction_g, extinction_r, extinction_i, extinction_z, clean, s.z, s.zerr, pz.z as photoz, pz.zerr as photozerr
+    FROM fGetNearbyObjEq(ra, dec, radius) n, Galaxy p
+    LEFT OUTER JOIN specObj s ON s.bestObjID = p.objID
+    LEFT OUTER JOIN photoz pz ON pz.objid = p.objid
+    WHERE n.objID = p.objID AND(s.class IS NULL or s.class='GALAXY')
 
 
 """
