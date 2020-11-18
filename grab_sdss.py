@@ -33,6 +33,8 @@ Galaxies Query:
 
 
 """
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 from numpy import *
 from SciServer import Authentication, CasJobs
 from SciServer import Config
@@ -42,6 +44,7 @@ import sys
 import os
 from astropy.io import ascii
 from astropy.table import Table
+
 
 urllib3.disable_warnings()
 

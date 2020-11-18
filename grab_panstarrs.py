@@ -44,16 +44,18 @@ join HLSP_PS1_PSC.pointsource_scores psc on psc.objid=o.objid
 
 
 """
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 from numpy import *
 from astropy.io import ascii
 from astropy.table import Table
-
 import json
 import sys
 import os
 import re
 import mastcasjobs
 import subprocess
+
 
 context='PanSTARRS_DR2'
 
