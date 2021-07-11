@@ -2,11 +2,16 @@
 
 Usage:
     Copy this code to working folder that has the optic files you want to mask, and do
-    $ python making_mask.py optic_flat_asu1.fits type
+    $ python making_mask.py optic_flat_asu1.fits [type/radius]
 
-    type can be "skymask" or "filtermask".
+    Type can be "skymask" or radius (in which case it will be labeled "filtermask_radius")
 
-filtermask is the mask of whole filter, radius=1855; skymask is the central flat part of the filter, radius=950.
+    Typical radius I use:
+    950     Skymask, central flat part
+    1855    Whole filter
+    1700    Whole filter, trim a bit
+    1500    Even smaller cut to avoid edge regions
+
 This code has to be run in the same folder as the optic files.
 
 """
@@ -14,29 +19,28 @@ from numpy import *
 from astropy.io import fits
 #from glob import glob
 import sys
-sys.dont_write_bytecode=True
 import mydraw as my
 
-
-if len(sys.argv)==1:
-    print(__doc__)
-    exit()
-
-
-
 file0 = sys.argv[1]     # optic flat
-masktype = sys.argv[2]  # mask type
+type_or_radius = sys.argv[2]
 op = fits.open(file0)
 
+#fname = file0.replace('.fits','_skymask.fits')
+#fname = file0.replace('.fits','_filtermask_1855.fits')
+#fname = file0.replace('.fits','_filtermask_1500.fits')
+#fname = file0.replace('.fits','_calibrationmask.fits')
 
+#radius = 950    # sky, the central part of filter that are really flat
+#radius = 1855   # whole filter
+#radius = 1700  # whole filter, trim a bit of edge
+#radius = 1500   # Even smaller cut to avoid edge region
 
-if masktype == 'skymask':
+if type_or_radius == 'skymask':
     fname = file0.replace('.fits','_skymask.fits')
     radius = 950
-elif masktype == 'filtermask':
-    fname = file0.replace('.fits','_filtermask.fits')
-    radius = 1855
-
+else:
+    radius = int(type_or_radius)
+    fname = file0.replace('.fits','_filtermask_{}.fits'.format(radius))
 
 
 my.to_im(file0)

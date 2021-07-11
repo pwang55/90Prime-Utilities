@@ -24,6 +24,7 @@ Stars Query:
 
 Galaxies Query:
     SELECT p.ra, p.dec, p.modelMag_u, p.modelMagErr_u, p.modelMag_g, p.modelMagErr_g, p.modelMag_r, p.modelMagErr_r, p.modelMag_i, p.modelMagErr_i, p.modelMag_z, p.modelMagErr_z,
+    p.petroMag_u, p.petroMagErr_u, p.petroMag_g, p.petroMagErr_g, p.petroMag_r, p.petroMagErr_r, p.petroMag_i, p.petroMagErr_i, p.petroMag_z, p.petroMagErr_z,
     p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z,
     extinction_u, extinction_g, extinction_r, extinction_i, extinction_z, clean, s.z, s.zerr, pz.z as photoz, pz.zerr as photozerr
     FROM fGetNearbyObjEq(ra, dec, radius) n, Galaxy p
@@ -35,7 +36,7 @@ Galaxies Query:
 """
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
-from numpy import *
+import numpy as np
 from SciServer import Authentication, CasJobs
 from SciServer import Config
 import urllib3
@@ -90,6 +91,7 @@ q_star = "SELECT p.ra, p.dec, p.psfMag_u, p.psfMagErr_u, p.psfMag_g, p.psfMagErr
 
 # Query for galaxy with modelMag and cmodelMag and extinctions
 q_gal = "SELECT p.ra, p.dec, p.modelMag_u, p.modelMagErr_u, p.modelMag_g, p.modelMagErr_g, p.modelMag_r, p.modelMagErr_r, p.modelMag_i, p.modelMagErr_i, p.modelMag_z, p.modelMagErr_z, \
+    p.petroMag_u, p.petroMagErr_u, p.petroMag_g, p.petroMagErr_g, p.petroMag_r, p.petroMagErr_r, p.petroMag_i, p.petroMagErr_i, p.petroMag_z, p.petroMagErr_z, \
     p.cmodelMag_u, p.cmodelMagErr_u, p.cmodelMag_g, p.cmodelMagErr_g, p.cmodelMag_r, p.cmodelMagErr_r, p.cmodelMag_i, p.cmodelMagErr_i, p.cmodelMag_z, p.cmodelMagErr_z, \
     extinction_u, extinction_g, extinction_r, extinction_i, extinction_z, clean, s.z, s.zerr, pz.z as photoz, pz.zerr as photozerr \
     FROM fGetNearbyObjEq("+ra+", "+dec+", "+radius+") n, Galaxy p \
@@ -105,15 +107,15 @@ star_tab = Table(star_data.values, names=star_data.columns, meta={'clustername':
 gal_tab = Table(gal_data.values, names=gal_data.columns, meta={'clustername': clustername, 'ra': ra, 'dec': dec, 'radius': radius}, dtype=[ float for x in range(len(gal_data.columns))])
 
 
-snospec = isnan(star_tab['z'])
-gnospec = isnan(gal_tab['z'])
+snospec = np.isnan(star_tab['z'])
+gnospec = np.isnan(gal_tab['z'])
 
 star_tab['z'][snospec] = -1.0
 star_tab['zerr'][snospec] = -1.0
 gal_tab['z'][gnospec] = -1.0
 gal_tab['zerr'][gnospec] = -1.0
 
-snophotoz = isnan(star_tab['photoz'])
+snophotoz = np.isnan(star_tab['photoz'])
 star_tab['photoz'][snophotoz] = -99.0
 star_tab['photozerr'][snophotoz] = -99.0
 
@@ -121,7 +123,7 @@ gnophotoz = gal_tab['photoz'] == -9999
 gal_tab['photoz'][gnophotoz] = -99.0
 gal_tab['photozerr'][gnophotoz] = -99.0
 
-gnanphotoz = isnan(gal_tab['photoz'])
+gnanphotoz = np.isnan(gal_tab['photoz'])
 gal_tab['photoz'][gnanphotoz] = -99.0
 gal_tab['photozerr'][gnanphotoz] = -99.0
 
