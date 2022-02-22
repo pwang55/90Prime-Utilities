@@ -3,7 +3,7 @@ from astropy.io import fits
 from glob import glob
 #import matplotlib.pyplot as plt
 #from scipy.ndimage import gaussian_filter as gf
-
+# test new mac git
 
 def to_im(fname):
     '''
