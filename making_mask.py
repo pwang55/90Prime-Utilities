@@ -43,12 +43,12 @@ else:
     fname = file0.replace('.fits','_filtermask_{}.fits'.format(radius))
 
 
-my.to_im(file0)
+ims1, ims2, ims3, ims4, imsa = my.to_im(file0)
 
-t1 = my.ims1.copy()
-t2 = my.ims2.copy()
-t3 = my.ims3.copy()
-t4 = my.ims4.copy()
+t1 = ims1.copy()
+t2 = ims2.copy()
+t3 = ims3.copy()
+t4 = ims4.copy()
 
 tlist = [t1, t2, t3, t4]
 
