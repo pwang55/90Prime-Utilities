@@ -21,6 +21,10 @@ from astropy.io import fits
 import sys
 import mydraw as my
 
+if len(sys.argv) < 3:
+    print(__doc__)
+    sys.exit()
+
 file0 = sys.argv[1]     # optic flat
 type_or_radius = sys.argv[2]
 op = fits.open(file0)
@@ -106,7 +110,7 @@ hdu0 = fits.PrimaryHDU()
 hdu0.header = op[0].header
 hlist.insert(0,hdu0)
 hduA = fits.HDUList(hlist)
-hduA.writeto(fname)
+hduA.writeto(fname, overwrite=True)
 
 
 
